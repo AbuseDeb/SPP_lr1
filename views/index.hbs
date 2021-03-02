@@ -1,21 +1,43 @@
-<h2>Список пользователей</h2>
-    <form name="userForm">
-        <input type="hidden" name="id" value="0" />
+<h2>Список тасков</h2>
+    <form action="/" method="post">
         <div class="form-group">
-            <label for="name">Имя:</label>
-            <input class="form-control" name="name" />
+            <label for="nameTask">Название таска:</label>
+            <input class="form-control" name="nameTask" required />
         </div>
         <div class="form-group">
-            <label for="age">Возраст:</label>
-            <input class="form-control" name="age" />
+            <label >Статус:</label><br>
+            <input type="radio" name="status" value="done" checked/> Выполнен<br>
+            <input type="radio" name="status" value="procces"/> В процессе<br>
+            <input type="radio" name="status"value="stoped"/> Остановлен<br>
+        </div>
+        <div class="form-group">
+            <label for="dateTask">Дата выполнения:</label>
+            <input type="date" class="form-control" name="dateTask" required />
         </div>
         <div class="panel-body">
             <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
-            <a id="reset" class="btn btn-sm btn-primary">Сбросить</a>
         </div>
     </form>
     <table class="table table-condensed table-striped table-bordered">
-        <thead><tr><th>Id</th><th>Имя</th><th>возраст</th><th></th></tr></thead>
+        <thead><tr><th>Название</th><th>Статус</th><th>Дата выполнения</th><th>Файлы</th><th></th></tr></thead>
         <tbody>
+            {{#each tasks}}
+                {{#with this}} 
+                    <tr>
+                        <th>{{name}}</th><th>{{status}}</th><th>{{date}}</th>
+                        <th>
+                            {{#each files}}
+                                {{this}} |
+                            {{/each}}
+                        </th>
+                        <th>
+                            <form action="/upload{{id}}" method="post" enctype="multipart/form-data">
+                                <input type="file" name="filedata" />
+                                <input type="submit" value="Send" />
+                            </form>
+                        </th>
+                    </tr>
+                {{/with}}
+            {{/each}}
         </tbody>
     </table>
